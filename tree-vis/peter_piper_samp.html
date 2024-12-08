@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Huffman tree</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+
+  <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+  <script src="https://unpkg.com/dagre@0.7.4/dist/dagre.js"></script>
+  <script src="cytoscape-dagre.js"></script>
+
+  <link rel="stylesheet" href="./style.css">
+
+  <script>
+    var elements = {
+      nodes: [
+        {data: {id: 'n1'}},
+        {data: {id: 'n2'}},
+        {data: {id: 'n3'}},
+        {data: {id: 'n4'}},
+        {data: {id: 'n5'}},
+        {data: {id: 'n6'}},
+        {data: {id: 'n7', token: '\\n'}, classes: ['leaf']},
+        {data: {id: 'n8'}},
+        {data: {id: 'n9'}},
+        {data: {id: 'n10', token: ','}, classes: ['leaf']},
+        {data: {id: 'n11', token: '?'}, classes: ['leaf']},
+        {data: {id: 'n12', token: 'y'}, classes: ['leaf']},
+        {data: {id: 'n13'}},
+        {data: {id: 'n14'}},
+        {data: {id: 'n15', token: '.'}, classes: ['leaf']},
+        {data: {id: 'n16'}},
+        {data: {id: 'n17', token: 'A'}, classes: ['leaf']},
+        {data: {id: 'n18', token: 'H'}, classes: ['leaf']},
+        {data: {id: 'n19', token: 'a'}, classes: ['leaf']},
+        {data: {id: 'n20', token: 'i'}, classes: ['leaf']},
+        {data: {id: 'n21', token: 'p'}, classes: ['leaf']},
+        {data: {id: 'n22'}},
+        {data: {id: 'n23', token: ' '}, classes: ['leaf']},
+        {data: {id: 'n24', token: 'e'}, classes: ['leaf']},
+        {data: {id: 'n25'}},
+        {data: {id: 'n26'}},
+        {data: {id: 'n27'}},
+        {data: {id: 'n28'}},
+        {data: {id: 'n29'}},
+        {data: {id: 'n30'}},
+        {data: {id: 'n31', token: 'I'}, classes: ['leaf']},
+        {data: {id: 'n32', token: 'm'}, classes: ['leaf']},
+        {data: {id: 'n33'}},
+        {data: {id: 'n34', token: 'n'}, classes: ['leaf']},
+        {data: {id: 'n35', token: 'w'}, classes: ['leaf']},
+        {data: {id: 'n36', token: 'f'}, classes: ['leaf']},
+        {data: {id: 'n37', token: 'P'}, classes: ['leaf']},
+        {data: {id: 'n38'}},
+        {data: {id: 'n39'}},
+        {data: {id: 'n40', token: 'l'}, classes: ['leaf']},
+        {data: {id: 'n41', token: 'o'}, classes: ['leaf']},
+        {data: {id: 'n42'}},
+        {data: {id: 'n43', token: 's'}, classes: ['leaf']},
+        {data: {id: 'n44', token: 't'}, classes: ['leaf']},
+        {data: {id: 'n45'}},
+        {data: {id: 'n46'}},
+        {data: {id: 'n47', token: 'c'}, classes: ['leaf']},
+        {data: {id: 'n48', token: 'd'}, classes: ['leaf']},
+        {data: {id: 'n49'}},
+        {data: {id: 'n50', token: 'k'}, classes: ['leaf']},
+        {data: {id: 'n51', token: 'r'}, classes: ['leaf']},
+      ],
+      edges: [
+        {data: {source: 'n1', target: 'n2', label: '0'}},
+        {data: {source: 'n2', target: 'n3', label: '0'}},
+        {data: {source: 'n3', target: 'n4', label: '0'}},
+        {data: {source: 'n4', target: 'n5', label: '0'}},
+        {data: {source: 'n5', target: 'n6', label: '0'}},
+        {data: {source: 'n6', target: 'n7', label: '0'}},
+        {data: {source: 'n6', target: 'n8', label: '1'}},
+        {data: {source: 'n8', target: 'n9', label: '0'}},
+        {data: {source: 'n9', target: 'n10', label: '0'}},
+        {data: {source: 'n9', target: 'n11', label: '1'}},
+        {data: {source: 'n8', target: 'n12', label: '1'}},
+        {data: {source: 'n5', target: 'n13', label: '1'}},
+        {data: {source: 'n13', target: 'n14', label: '0'}},
+        {data: {source: 'n14', target: 'n15', label: '0'}},
+        {data: {source: 'n14', target: 'n16', label: '1'}},
+        {data: {source: 'n16', target: 'n17', label: '0'}},
+        {data: {source: 'n16', target: 'n18', label: '1'}},
+        {data: {source: 'n13', target: 'n19', label: '1'}},
+        {data: {source: 'n4', target: 'n20', label: '1'}},
+        {data: {source: 'n3', target: 'n21', label: '1'}},
+        {data: {source: 'n2', target: 'n22', label: '1'}},
+        {data: {source: 'n22', target: 'n23', label: '0'}},
+        {data: {source: 'n22', target: 'n24', label: '1'}},
+        {data: {source: 'n1', target: 'n25', label: '1'}},
+        {data: {source: 'n25', target: 'n26', label: '0'}},
+        {data: {source: 'n26', target: 'n27', label: '0'}},
+        {data: {source: 'n27', target: 'n28', label: '0'}},
+        {data: {source: 'n28', target: 'n29', label: '0'}},
+        {data: {source: 'n29', target: 'n30', label: '0'}},
+        {data: {source: 'n30', target: 'n31', label: '0'}},
+        {data: {source: 'n30', target: 'n32', label: '1'}},
+        {data: {source: 'n29', target: 'n33', label: '1'}},
+        {data: {source: 'n33', target: 'n34', label: '0'}},
+        {data: {source: 'n33', target: 'n35', label: '1'}},
+        {data: {source: 'n28', target: 'n36', label: '1'}},
+        {data: {source: 'n27', target: 'n37', label: '1'}},
+        {data: {source: 'n26', target: 'n38', label: '1'}},
+        {data: {source: 'n38', target: 'n39', label: '0'}},
+        {data: {source: 'n39', target: 'n40', label: '0'}},
+        {data: {source: 'n39', target: 'n41', label: '1'}},
+        {data: {source: 'n38', target: 'n42', label: '1'}},
+        {data: {source: 'n42', target: 'n43', label: '0'}},
+        {data: {source: 'n42', target: 'n44', label: '1'}},
+        {data: {source: 'n25', target: 'n45', label: '1'}},
+        {data: {source: 'n45', target: 'n46', label: '0'}},
+        {data: {source: 'n46', target: 'n47', label: '0'}},
+        {data: {source: 'n46', target: 'n48', label: '1'}},
+        {data: {source: 'n45', target: 'n49', label: '1'}},
+        {data: {source: 'n49', target: 'n50', label: '0'}},
+        {data: {source: 'n49', target: 'n51', label: '1'}},
+      ],
+    };
+  </script>
+
+  <script src="./visualiser.js"></script>
+</head>
+
+<body>
+  <h1>Huffman tree</h1>
+  <div id="cy"></div>
+</body></html>
